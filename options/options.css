@@ -1,0 +1,301 @@
+/* ─── Design Tokens (shared with popup) ──────────────────────────────────── */
+:root {
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f4f5f7;
+  --bg-hover: #ebedf0;
+  --text-primary: #1a1d23;
+  --text-secondary: #5f6673;
+  --text-tertiary: #8c919e;
+  --border: #e0e3e8;
+  --accent: #4a6cf7;
+  --accent-hover: #3b5de7;
+  --accent-glow: rgba(74, 108, 247, 0.15);
+  --success: #22c55e;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --transition: 0.2s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-primary: #13151a;
+    --bg-secondary: #1c1f26;
+    --bg-hover: #262a33;
+    --text-primary: #e8eaed;
+    --text-secondary: #9aa0ac;
+    --text-tertiary: #6b7280;
+    --border: #2d3240;
+    --accent: #6b8aff;
+    --accent-hover: #8ba3ff;
+    --accent-glow: rgba(107, 138, 255, 0.2);
+  }
+}
+:root[data-theme="dark"] {
+  --bg-primary: #13151a;
+  --bg-secondary: #1c1f26;
+  --bg-hover: #262a33;
+  --text-primary: #e8eaed;
+  --text-secondary: #9aa0ac;
+  --text-tertiary: #6b7280;
+  --border: #2d3240;
+  --accent: #6b8aff;
+  --accent-hover: #8ba3ff;
+  --accent-glow: rgba(107, 138, 255, 0.2);
+}
+
+/* ─── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* ─── Container ──────────────────────────────────────────────────────────── */
+.options-container {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+.options-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.options-header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+/* ─── Sections ───────────────────────────────────────────────────────────── */
+.settings-section {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.settings-section h2 {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+}
+
+.section-desc {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  line-height: 1.5;
+}
+
+/* ─── Radio Group ────────────────────────────────────────────────────────── */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-option {
+  cursor: pointer;
+}
+
+.radio-option input {
+  display: none;
+}
+
+.radio-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+
+.radio-option input:checked + .radio-card {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.radio-card:hover {
+  border-color: var(--accent-hover);
+}
+
+.radio-title {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.radio-desc {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+}
+
+/* ─── Toggle Row ─────────────────────────────────────────────────────────── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.toggle-label {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-primary);
+  display: block;
+}
+
+.toggle-desc {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+  display: block;
+  margin-top: 4px;
+}
+
+/* Toggle switch */
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: var(--border);
+  border-radius: 12px;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  top: 3px;
+  left: 3px;
+  transition: transform var(--transition);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: var(--accent);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(20px);
+}
+
+/* ─── Select Row ─────────────────────────────────────────────────────────── */
+.select-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.select-label {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-primary);
+  display: block;
+}
+
+.select-desc {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+  display: block;
+  margin-top: 4px;
+}
+
+select {
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color var(--transition);
+  outline: none;
+}
+
+select:focus {
+  border-color: var(--accent);
+}
+
+/* ─── Save Toast ─────────────────────────────────────────────────────────── */
+.save-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--success);
+  color: white;
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+  animation: toastIn 0.3s ease;
+  z-index: 100;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.hidden { display: none !important; }

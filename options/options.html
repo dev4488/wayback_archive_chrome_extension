@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wayback Archive Viewer — Settings</title>
+  <link rel="stylesheet" href="options.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="options-container">
+    <header class="options-header">
+      <img src="../icons/icon48.png" alt="Logo" class="header-logo">
+      <div>
+        <h1>Wayback Archive Viewer</h1>
+        <p class="subtitle">Settings &amp; Preferences</p>
+      </div>
+    </header>
+
+    <!-- Default Behavior -->
+    <section class="settings-section">
+      <h2>Default Behavior</h2>
+      <p class="section-desc">Choose what happens when you activate the extension via keyboard shortcut or context menu.</p>
+
+      <div class="radio-group">
+        <label class="radio-option" id="opt-latest">
+          <input type="radio" name="defaultBehavior" value="latest" checked>
+          <div class="radio-card">
+            <span class="radio-title">Open latest snapshot directly</span>
+            <span class="radio-desc">Immediately opens the most recent archived version of the page.</span>
+          </div>
+        </label>
+        <label class="radio-option" id="opt-timeline">
+          <input type="radio" name="defaultBehavior" value="timeline">
+          <div class="radio-card">
+            <span class="radio-title">Open archive timeline</span>
+            <span class="radio-desc">Opens the Wayback Machine calendar so you can pick a specific date.</span>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <!-- Toggles -->
+    <section class="settings-section">
+      <h2>Automation</h2>
+
+      <label class="toggle-row">
+        <div>
+          <span class="toggle-label">Auto-open without confirmation</span>
+          <span class="toggle-desc">When enabled, clicking the extension icon immediately opens the default action without showing the popup first.</span>
+        </div>
+        <div class="toggle-switch">
+          <input type="checkbox" id="toggle-auto-open">
+          <span class="toggle-slider"></span>
+        </div>
+      </label>
+    </section>
+
+    <!-- Appearance -->
+    <section class="settings-section">
+      <h2>Appearance</h2>
+
+      <div class="select-row">
+        <div>
+          <span class="select-label">Theme</span>
+          <span class="select-desc">Choose the color scheme for the extension popup.</span>
+        </div>
+        <select id="select-theme">
+          <option value="system">System default</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Save feedback -->
+    <div class="save-toast hidden" id="save-toast">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      Settings saved
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

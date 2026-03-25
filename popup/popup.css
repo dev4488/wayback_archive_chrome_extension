@@ -1,0 +1,407 @@
+/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+:root {
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Light mode (default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f4f5f7;
+  --bg-hover: #ebedf0;
+  --text-primary: #1a1d23;
+  --text-secondary: #5f6673;
+  --text-tertiary: #8c919e;
+  --border: #e0e3e8;
+  --accent: #4a6cf7;
+  --accent-hover: #3b5de7;
+  --accent-glow: rgba(74, 108, 247, 0.15);
+  --success: #22c55e;
+  --success-bg: rgba(34, 197, 94, 0.1);
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --error-bg: rgba(239, 68, 68, 0.1);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --transition: 0.2s ease;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-primary: #13151a;
+    --bg-secondary: #1c1f26;
+    --bg-hover: #262a33;
+    --text-primary: #e8eaed;
+    --text-secondary: #9aa0ac;
+    --text-tertiary: #6b7280;
+    --border: #2d3240;
+    --accent: #6b8aff;
+    --accent-hover: #8ba3ff;
+    --accent-glow: rgba(107, 138, 255, 0.2);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+  }
+}
+
+/* Force dark mode via attribute */
+:root[data-theme="dark"] {
+  --bg-primary: #13151a;
+  --bg-secondary: #1c1f26;
+  --bg-hover: #262a33;
+  --text-primary: #e8eaed;
+  --text-secondary: #9aa0ac;
+  --text-tertiary: #6b7280;
+  --border: #2d3240;
+  --accent: #6b8aff;
+  --accent-hover: #8ba3ff;
+  --accent-glow: rgba(107, 138, 255, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* ─── Reset & Base ───────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  min-width: 340px;
+  max-width: 380px;
+  overflow: hidden;
+}
+
+/* ─── Popup Container ────────────────────────────────────────────────────── */
+.popup-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.popup-header h1 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--text-primary);
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.icon-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+/* ─── URL Display ────────────────────────────────────────────────────────── */
+.url-display {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.url-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-tertiary);
+}
+
+.url-text {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 310px;
+}
+
+/* ─── Status Area ────────────────────────────────────────────────────────── */
+.status-area {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.state {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.state-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.state p {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.state-hint {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  line-height: 1.4;
+}
+
+/* Loading */
+.state-loading {
+  color: var(--text-secondary);
+  gap: 12px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Found */
+.state-found {
+  background: var(--success-bg);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.snapshot-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.snapshot-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--success);
+}
+
+.snapshot-date {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+/* Not found */
+.state-not-found {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+}
+
+/* Not archivable */
+.state-not-archivable {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+}
+
+/* Error */
+.state-error {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  background: var(--error-bg);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.state-error p {
+  color: var(--error);
+}
+
+/* Saving */
+.state-saving {
+  color: var(--text-secondary);
+  gap: 12px;
+}
+
+/* Save success */
+.state-save-success {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  background: var(--success-bg);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+/* ─── Action Buttons ─────────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+/* Primary (accent) */
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: var(--accent-hover);
+  box-shadow: 0 4px 16px var(--accent-glow);
+}
+
+.btn-primary.is-default {
+  box-shadow: 0 0 0 2px var(--accent), 0 2px 8px var(--accent-glow);
+}
+
+/* Secondary */
+.btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:not(:disabled):hover {
+  background: var(--bg-hover);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-secondary.is-default {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* Outline */
+.btn-outline {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.btn-outline:not(:disabled):hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--text-tertiary);
+}
+
+/* ─── Default Mode Indicator ─────────────────────────────────────────────── */
+.default-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+.indicator-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.default-indicator span:last-child {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* ─── Utility ────────────────────────────────────────────────────────────── */
+.btn svg {
+  flex-shrink: 0;
+}

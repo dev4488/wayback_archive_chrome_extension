@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "Wayback Archive Viewer",
+  "version": "1.0.0",
+  "description": "Quickly view archived versions of any webpage using the Internet Archive Wayback Machine",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "https://archive.org/*",
+    "https://web.archive.org/*"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Wayback Archive Viewer",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "archive-lookup": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+A",
+        "mac": "Command+Shift+A"
+      },
+      "description": "Look up archived version of current page"
+    }
+  }
+}
