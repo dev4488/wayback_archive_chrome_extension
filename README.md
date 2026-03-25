@@ -41,4 +41,4 @@ A fast, modern Chrome extension for quickly viewing archived versions of any web
 
 ---
 
-Built with ❤️ by [dev4488](https://github.com/dev4488)
+Built with ❤️ by [Devinder Kumar](https://github.com/dev4488)
