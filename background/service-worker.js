@@ -43,19 +43,21 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   const url = info.linkUrl || info.pageUrl || tab?.url;
   if (!url || !isArchivable(url)) return;
 
+  const { archiveEngine } = await chrome.storage.sync.get({ archiveEngine: 'wayback' });
+
   if (info.menuItemId === 'open-archived-version') {
     try {
-      const snapshot = await fetchLatestSnapshot(url);
+      const snapshot = await fetchLatestSnapshot(url, false, archiveEngine);
       if (snapshot?.url) {
         chrome.tabs.create({ url: snapshot.url });
       } else {
-        chrome.tabs.create({ url: getTimelineUrl(url) });
+        chrome.tabs.create({ url: getTimelineUrl(url, archiveEngine) });
       }
     } catch {
-      chrome.tabs.create({ url: getTimelineUrl(url) });
+      chrome.tabs.create({ url: getTimelineUrl(url, archiveEngine) });
     }
   } else if (info.menuItemId === 'open-archive-timeline') {
-    chrome.tabs.create({ url: getTimelineUrl(url) });
+    chrome.tabs.create({ url: getTimelineUrl(url, archiveEngine) });
   }
 });
 
@@ -67,25 +69,26 @@ chrome.commands.onCommand.addListener(async (command) => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab?.url || !isArchivable(tab.url)) return;
 
-  // Read user's default preference
-  const { defaultBehavior } = await chrome.storage.sync.get({
-    defaultBehavior: 'latest'
+  // Read user's default preference and engine
+  const { defaultBehavior, archiveEngine } = await chrome.storage.sync.get({
+    defaultBehavior: 'latest',
+    archiveEngine: 'wayback'
   });
 
   if (defaultBehavior === 'timeline') {
-    chrome.tabs.create({ url: getTimelineUrl(tab.url) });
+    chrome.tabs.create({ url: getTimelineUrl(tab.url, archiveEngine) });
     return;
   }
 
   try {
-    const snapshot = await fetchLatestSnapshot(tab.url);
+    const snapshot = await fetchLatestSnapshot(tab.url, false, archiveEngine);
     if (snapshot?.url) {
       chrome.tabs.create({ url: snapshot.url });
     } else {
-      chrome.tabs.create({ url: getTimelineUrl(tab.url) });
+      chrome.tabs.create({ url: getTimelineUrl(tab.url, archiveEngine) });
     }
   } catch {
-    chrome.tabs.create({ url: getTimelineUrl(tab.url) });
+    chrome.tabs.create({ url: getTimelineUrl(tab.url, archiveEngine) });
   }
 });
 
@@ -139,21 +142,24 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   const { action, url } = message;
 
   if (action === 'getSnapshot') {
-    fetchLatestSnapshot(url)
+    const { archiveEngine } = message;
+    fetchLatestSnapshot(url, false, archiveEngine)
       .then(snapshot => sendResponse({ success: true, snapshot }))
       .catch(error => sendResponse({ success: false, error: error.message }));
     return true; // keep channel open for async response
   }
 
   if (action === 'saveToArchive') {
-    saveToArchive(url)
+    const { archiveEngine } = message;
+    saveToArchive(url, archiveEngine)
       .then(result => sendResponse(result))
       .catch(error => sendResponse({ success: false, error: error.message }));
     return true;
   }
 
   if (action === 'getTimelineUrl') {
-    sendResponse({ url: getTimelineUrl(url) });
+    const { archiveEngine } = message;
+    sendResponse({ url: getTimelineUrl(url, archiveEngine) });
     return false;
   }
 

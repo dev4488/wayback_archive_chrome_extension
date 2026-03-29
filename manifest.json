@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Wayback Archive Viewer",
   "version": "1.0.0",
-  "description": "Quickly view archived versions of any webpage using the Internet Archive Wayback Machine",
+  "description": "Quickly view archived versions of any webpage using the Wayback Machine or Archive.is",
   "permissions": [
     "tabs",
     "activeTab",
@@ -11,7 +11,9 @@
   ],
   "host_permissions": [
     "https://archive.org/*",
-    "https://web.archive.org/*"
+    "https://web.archive.org/*",
+    "https://archive.is/*",
+    "https://archive.ph/*"
   ],
   "action": {
     "default_popup": "popup/popup.html",

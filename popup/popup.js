@@ -27,6 +27,7 @@ const ALL_STATES = [
 // ─── State Management ───────────────────────────────────────────────────────
 let currentTabUrl = null;
 let currentSnapshot = null;
+let currentEngine = 'wayback';
 
 function showState(stateEl) {
   ALL_STATES.forEach(el => el.classList.add('hidden'));
@@ -57,7 +58,12 @@ async function applyTheme() {
 
 // ─── Default Mode Indicator ─────────────────────────────────────────────────
 async function updateDefaultIndicator() {
-  const { defaultBehavior } = await chrome.storage.sync.get({ defaultBehavior: 'latest' });
+  const { defaultBehavior, archiveEngine } = await chrome.storage.sync.get({ 
+    defaultBehavior: 'latest', 
+    archiveEngine: 'wayback' 
+  });
+  
+  currentEngine = archiveEngine;
 
   if (defaultBehavior === 'timeline') {
     elDefaultLabel.textContent = 'Default: Open archive timeline';
@@ -124,7 +130,8 @@ async function fetchSnapshot(url) {
   try {
     const response = await chrome.runtime.sendMessage({
       action: 'getSnapshot',
-      url: url
+      url: url,
+      archiveEngine: currentEngine
     });
 
     if (response?.success && response.snapshot) {
@@ -138,6 +145,13 @@ async function fetchSnapshot(url) {
       elSnapshotDate.textContent = tsResp?.formatted || response.snapshot.timestamp;
 
       showState(elStateFound);
+      
+      if (currentEngine === 'archiveIs') {
+        elBtnLatest.textContent = 'Open in Archive.is';
+      } else {
+        elBtnLatest.textContent = 'Open Latest Snapshot';
+      }
+
       enableActions(true);
 
       // Check auto-open preference
@@ -196,7 +210,7 @@ function openLatest() {
 function openTimeline() {
   if (!currentTabUrl) return;
   chrome.runtime.sendMessage(
-    { action: 'getTimelineUrl', url: currentTabUrl },
+    { action: 'getTimelineUrl', url: currentTabUrl, archiveEngine: currentEngine },
     (resp) => {
       if (resp?.url) {
         chrome.tabs.create({ url: resp.url });
@@ -215,11 +229,17 @@ async function archivePage() {
   try {
     const result = await chrome.runtime.sendMessage({
       action: 'saveToArchive',
-      url: currentTabUrl
+      url: currentTabUrl,
+      archiveEngine: currentEngine
     });
 
     if (result?.success) {
-      showState(elStateSaveOk);
+      if (result.newTabRequired && result.archiveUrl) {
+        chrome.tabs.create({ url: result.archiveUrl });
+        window.close();
+      } else {
+        showState(elStateSaveOk);
+      }
     } else {
       elErrorMsg.textContent = result?.error || 'Failed to archive page.';
       showState(elStateError);

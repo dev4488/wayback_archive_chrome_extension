@@ -4,12 +4,14 @@
  */
 
 const DEFAULTS = {
+  archiveEngine: 'wayback',
   defaultBehavior: 'latest',
   autoOpen: false,
   themeMode: 'system'
 };
 
 // ─── DOM ────────────────────────────────────────────────────────────────────
+const engineRadios = document.querySelectorAll('input[name="archiveEngine"]');
 const radios       = document.querySelectorAll('input[name="defaultBehavior"]');
 const toggleAuto   = document.getElementById('toggle-auto-open');
 const selectTheme  = document.getElementById('select-theme');
@@ -27,6 +29,11 @@ function applyTheme(mode) {
 // ─── Load Settings ──────────────────────────────────────────────────────────
 async function loadSettings() {
   const settings = await chrome.storage.sync.get(DEFAULTS);
+
+  // Engine radios
+  engineRadios.forEach(r => {
+    r.checked = r.value === settings.archiveEngine;
+  });
 
   // Default behavior radios
   radios.forEach(r => {
@@ -58,6 +65,14 @@ async function save(key, value) {
 }
 
 // ─── Event Listeners ────────────────────────────────────────────────────────
+engineRadios.forEach(radio => {
+  radio.addEventListener('change', () => {
+    if (radio.checked) {
+      save('archiveEngine', radio.value);
+    }
+  });
+});
+
 radios.forEach(radio => {
   radio.addEventListener('change', () => {
     if (radio.checked) {

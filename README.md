@@ -1,6 +1,6 @@
 # Wayback Archive Viewer
 
-A fast, modern Chrome extension for quickly viewing archived versions of any webpage using the Internet Archive Wayback Machine.
+A fast, modern Chrome extension for quickly viewing archived versions of any webpage using the Internet Archive Wayback Machine or Archive.is.
 
 ## 🎯 Core Functionality
 
@@ -13,6 +13,7 @@ A fast, modern Chrome extension for quickly viewing archived versions of any web
 
 ## ⚙️ Settings & Preferences
 
+-   **Archive Engine**: Choose between using the standard Wayback Machine (archive.org) or Archive.is as your default provider.
 -   **Default Action**: Choose between opening the latest snapshot or the archive timeline directly.
 -   **Auto-Open**: Enable/disable automatic redirection for even faster access.
 -   **Appearance**: System-aware dark/light mode with a manual theme override.
@@ -23,7 +24,7 @@ A fast, modern Chrome extension for quickly viewing archived versions of any web
 -   **Dual-API Strategy**: Uses the Wayback CDX API as primary (more reliable) with the Availability API as fallback.
 -   **Local Caching**: 5-minute in-memory TTL cache for lookups to minimize redundant network requests.
 -   **Fetch Timeouts**: 10-second timeout handling with `AbortController` ensures the UI remains responsive even when the archive service is degraded.
--   **Minimal Permissions**: Uses Manifest V3 and requests only necessary `host_permissions` for `archive.org`.
+-   **Minimal Permissions**: Uses Manifest V3 and requests only necessary `host_permissions` for `archive.org`, `archive.is`, and `archive.ph`.
 
 ## 🛠️ Installation
 
@@ -38,7 +39,8 @@ A fast, modern Chrome extension for quickly viewing archived versions of any web
 -   **Vanilla JavaScript (ES Modules)**
 -   **Vanilla CSS**
 -   **Wayback Machine CDX & Availability APIs**
+-   **Archive.is URL Routing Utilities**
 
 ---
 
-Built with ❤️ by [Devinder Kumar](https://github.com/dev4488)
+Built by [Devinder Kumar](https://github.com/dev4488)
